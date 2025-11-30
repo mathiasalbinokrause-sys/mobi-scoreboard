@@ -3,6 +3,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Home, PlusCircle, Users, Calendar, Download, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import UserMenu from "@/components/UserMenu";
 import TeamDashboard from "./team/TeamDashboard";
 import NewScore from "./team/NewScore";
 import TeamMembers from "./team/TeamMembers";
@@ -16,17 +18,21 @@ interface TeamLayoutProps {
 
 const TeamLayout = ({ teamId, teamName }: TeamLayoutProps) => {
   const [activeTab, setActiveTab] = useState("home");
+  const { isAdmin } = useAuth();
 
   return (
     <div className="min-h-screen bg-background">
       <div className="bg-primary/5 border-b border-primary/10 mb-6">
         <div className="container mx-auto px-4 py-4">
-          <Link to="/">
-            <Button variant="ghost" size="sm" className="mb-2">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Voltar ao Início
-            </Button>
-          </Link>
+          <div className="flex items-center justify-between">
+            <Link to="/">
+              <Button variant="ghost" size="sm">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Voltar ao Início
+              </Button>
+            </Link>
+            <UserMenu />
+          </div>
         </div>
       </div>
 
@@ -52,6 +58,7 @@ const TeamLayout = ({ teamId, teamName }: TeamLayoutProps) => {
             <TabsTrigger 
               value="new-score" 
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all"
+              disabled={!isAdmin}
             >
               <PlusCircle className="h-4 w-4" />
               <span className="hidden md:inline">Nova</span>
@@ -59,6 +66,7 @@ const TeamLayout = ({ teamId, teamName }: TeamLayoutProps) => {
             <TabsTrigger 
               value="team" 
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all"
+              disabled={!isAdmin}
             >
               <Users className="h-4 w-4" />
               <span className="hidden md:inline">Equipe</span>
