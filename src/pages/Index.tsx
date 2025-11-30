@@ -24,16 +24,16 @@ const Index = () => {
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
           <Card className="border-primary/20 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
             <CardHeader className="text-center pb-4">
-              <CardTitle className="text-3xl font-bold text-primary">Time A</CardTitle>
+              <CardTitle className="text-3xl font-bold text-primary">Grupo A</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-center gap-3 text-muted-foreground">
                 <Users className="h-5 w-5" />
-                <span>Acompanhe a evolução do time</span>
+                <span>Acompanhe a evolução do grupo</span>
               </div>
               <Link to="/time-a" className="block">
                 <Button className="w-full h-12 text-lg bg-primary hover:bg-primary/90">
-                  Acessar Time A
+                  Acessar Grupo A
                 </Button>
               </Link>
             </CardContent>
@@ -41,16 +41,16 @@ const Index = () => {
 
           <Card className="border-accent/30 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
             <CardHeader className="text-center pb-4">
-              <CardTitle className="text-3xl font-bold text-accent">Time B</CardTitle>
+              <CardTitle className="text-3xl font-bold text-accent">Grupo B</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-center gap-3 text-muted-foreground">
                 <Users className="h-5 w-5" />
-                <span>Acompanhe a evolução do time</span>
+                <span>Acompanhe a evolução do grupo</span>
               </div>
               <Link to="/time-b" className="block">
                 <Button className="w-full h-12 text-lg bg-accent hover:bg-accent/90">
-                  Acessar Time B
+                  Acessar Grupo B
                 </Button>
               </Link>
             </CardContent>
