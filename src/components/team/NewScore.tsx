@@ -29,8 +29,12 @@ const NewScore = ({ teamId }: NewScoreProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!formData.member_id || !formData.description || !formData.points || !formData.month) {
+      return;
+    }
+    
     const points = parseFloat(formData.points);
-    if (points < 1 || points > 100) {
+    if (isNaN(points) || points < 1 || points > 100) {
       return;
     }
 
@@ -66,9 +70,13 @@ const NewScore = ({ teamId }: NewScoreProps) => {
               <Label htmlFor="member">Quem fez *</Label>
               <Select
                 value={formData.member_id}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, member_id: value })
-                }
+                onValueChange={(value) => {
+                  try {
+                    setFormData({ ...formData, member_id: value });
+                  } catch (error) {
+                    console.error("Erro ao selecionar membro:", error);
+                  }
+                }}
               >
                 <SelectTrigger id="member">
                   <SelectValue placeholder="Selecione o jovem" />
@@ -122,9 +130,13 @@ const NewScore = ({ teamId }: NewScoreProps) => {
               <Label htmlFor="month">Mês *</Label>
               <Select
                 value={formData.month}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, month: value })
-                }
+                onValueChange={(value) => {
+                  try {
+                    setFormData({ ...formData, month: value });
+                  } catch (error) {
+                    console.error("Erro ao selecionar mês:", error);
+                  }
+                }}
               >
                 <SelectTrigger id="month">
                   <SelectValue placeholder="Selecione o mês" />
