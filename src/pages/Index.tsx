@@ -2,9 +2,15 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trophy, Users, Calendar } from "lucide-react";
+import UserMenu from "@/components/UserMenu";
+
 const Index = () => {
   return <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
       <div className="container mx-auto px-4 py-8 md:py-16">
+        <div className="flex justify-end mb-4">
+          <UserMenu />
+        </div>
+        
         <div className="text-center mb-12">
           <div className="inline-block mb-6">
             <Trophy className="h-16 w-16 md:h-20 md:w-20 text-primary mx-auto mb-4" />
