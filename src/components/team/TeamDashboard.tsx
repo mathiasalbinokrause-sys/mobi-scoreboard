@@ -150,25 +150,31 @@ const TeamDashboard = ({ teamId }: TeamDashboardProps) => {
                   Nenhuma pontuação registrada ainda
                 </p>
               ) : (
-                recentScores.map((score) => (
-                  <div
-                    key={score.id}
-                    className="p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
-                  >
-                    <div className="flex justify-between items-start mb-1">
-                      <span className="font-medium">{score.members?.name || "Todos"}</span>
-                      <span className="font-bold text-primary">
-                        {Number(score.points).toFixed(1)}
-                      </span>
+                recentScores.map((score) => {
+                  const memberName = score.members && typeof score.members === 'object' && 'name' in score.members
+                    ? String(score.members.name)
+                    : "Todos";
+                  
+                  return (
+                    <div
+                      key={score.id}
+                      className="p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="flex justify-between items-start mb-1">
+                        <span className="font-medium">{memberName}</span>
+                        <span className="font-bold text-primary">
+                          {Number(score.points).toFixed(1)}
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-1">
+                        {score.description}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {score.month}
+                      </p>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-1">
-                      {score.description}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {score.month}
-                    </p>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           </CardContent>

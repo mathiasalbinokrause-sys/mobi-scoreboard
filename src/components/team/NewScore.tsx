@@ -94,12 +94,15 @@ const NewScore = ({ teamId }: NewScoreProps) => {
         month: formData.month,
       }, {
         onSuccess: () => {
-          setFormData({
-            member_id: "",
-            description: "",
-            points: "",
-            month: "",
-          });
+          // Delay form reset to prevent removeChild error
+          setTimeout(() => {
+            setFormData({
+              member_id: "",
+              description: "",
+              points: "",
+              month: "",
+            });
+          }, 100);
         },
         onError: (error) => {
           console.error("Erro ao adicionar pontuação:", error);

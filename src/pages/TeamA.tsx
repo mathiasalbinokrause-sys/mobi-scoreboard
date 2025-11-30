@@ -21,7 +21,7 @@ const TeamA = () => {
         const { data, error: fetchError } = await supabase
           .from("teams")
           .select("id")
-          .eq("name", "Time A")
+          .eq("name", "Grupo A")
           .maybeSingle();
         
         if (fetchError) {
@@ -31,7 +31,7 @@ const TeamA = () => {
         }
         
         if (!data) {
-          setError("Time A não encontrado no banco de dados");
+          setError("Grupo A não encontrado no banco de dados");
           return;
         }
         
@@ -53,7 +53,7 @@ const TeamA = () => {
         <Card className="w-full max-w-md mx-4">
           <CardContent className="pt-6 flex flex-col items-center gap-4">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
-            <p className="text-muted-foreground">Carregando Time A...</p>
+            <p className="text-muted-foreground">Carregando Grupo A...</p>
           </CardContent>
         </Card>
       </div>
@@ -78,7 +78,7 @@ const TeamA = () => {
     );
   }
 
-  return <TeamLayout teamId={teamId} teamName="Time A" />;
+  return <TeamLayout teamId={teamId} teamName="Grupo A" />;
 };
 
 export default TeamA;
