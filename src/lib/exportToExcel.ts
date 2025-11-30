@@ -80,12 +80,27 @@ export const exportToExcel = (
     csvContent += `${index + 1},${member.name},${member.points.toFixed(2)}\n`;
   });
   
-  // Criar e baixar arquivo
+  // Criar e baixar arquivo de forma segura
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
   link.setAttribute("download", `MOBI_${teamName}_${new Date().toISOString().split('T')[0]}.csv`);
+  link.style.display = "none";
+  
+  // Remover o link de forma segura com verificação
+  const cleanup = () => {
+    try {
+      if (link && link.parentNode && document.body.contains(link)) {
+        link.parentNode.removeChild(link);
+      }
+    } catch (error) {
+      console.error("Erro ao remover link:", error);
+    }
+  };
+
   document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link);
+  
+  // Aguardar um pouco antes de limpar (evita race condition)
+  setTimeout(cleanup, 150);
 };
