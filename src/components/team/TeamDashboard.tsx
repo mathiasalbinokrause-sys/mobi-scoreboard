@@ -156,7 +156,7 @@ const TeamDashboard = ({ teamId }: TeamDashboardProps) => {
                     className="p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
                   >
                     <div className="flex justify-between items-start mb-1">
-                      <span className="font-medium">{score.members?.name}</span>
+                      <span className="font-medium">{score.members?.name || "Todos"}</span>
                       <span className="font-bold text-primary">
                         {Number(score.points).toFixed(1)}
                       </span>

@@ -48,7 +48,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
-          member_id: string
+          member_id: string | null
           month: string
           points: number
           team_id: string
@@ -57,7 +57,7 @@ export type Database = {
           created_at?: string
           description: string
           id?: string
-          member_id: string
+          member_id?: string | null
           month: string
           points: number
           team_id: string
@@ -66,7 +66,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
-          member_id?: string
+          member_id?: string | null
           month?: string
           points?: number
           team_id?: string

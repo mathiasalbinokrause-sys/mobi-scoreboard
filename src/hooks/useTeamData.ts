@@ -80,7 +80,7 @@ export const useTeamData = (teamId: string) => {
 
   const addScore = useMutation({
     mutationFn: async (scoreData: {
-      member_id: string;
+      member_id: string | null;
       description: string;
       points: number;
       month: string;

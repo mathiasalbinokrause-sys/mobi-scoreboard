@@ -35,7 +35,7 @@ const NewScore = ({ teamId }: NewScoreProps) => {
     }
 
     addScore.mutate({
-      member_id: formData.member_id,
+      member_id: formData.member_id === "todos" ? null : formData.member_id,
       description: formData.description,
       points,
       month: formData.month,
