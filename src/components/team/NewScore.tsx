@@ -74,6 +74,7 @@ const NewScore = ({ teamId }: NewScoreProps) => {
                   <SelectValue placeholder="Selecione o jovem" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="todos">Todos</SelectItem>
                   {members.map((member) => (
                     <SelectItem key={member.id} value={member.id}>
                       {member.name}
