@@ -30,7 +30,7 @@ const NewScore = ({ teamId }: NewScoreProps) => {
     e.preventDefault();
     
     const points = parseFloat(formData.points);
-    if (points < 10 || points > 100) {
+    if (points < 1 || points > 100) {
       return;
     }
 
@@ -98,14 +98,14 @@ const NewScore = ({ teamId }: NewScoreProps) => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="points">Pontos (10 - 100) *</Label>
+              <Label htmlFor="points">Pontos (1 - 100) *</Label>
               <Input
                 id="points"
                 type="number"
-                min="10"
+                min="1"
                 max="100"
                 step="0.1"
-                placeholder="Ex: 85.5"
+                placeholder="Ex: 50.5"
                 value={formData.points}
                 onChange={(e) =>
                   setFormData({ ...formData, points: e.target.value })
@@ -113,7 +113,7 @@ const NewScore = ({ teamId }: NewScoreProps) => {
                 required
               />
               <p className="text-xs text-muted-foreground">
-                Digite um valor entre 10 e 100 (pode usar decimais)
+                Digite um valor entre 1 e 100 (pode usar decimais)
               </p>
             </div>
 
