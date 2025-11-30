@@ -60,7 +60,7 @@ const MonthlyScores = ({ teamId }: MonthlyScoresProps) => {
 
   const filteredScores = searchTerm
     ? selectedMonthScores.filter((score) =>
-        score.members?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (score.members?.name || "Todos").toLowerCase().includes(searchTerm.toLowerCase()) ||
         score.description.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : selectedMonthScores;
@@ -232,7 +232,7 @@ const MonthlyScores = ({ teamId }: MonthlyScoresProps) => {
                           <div className="flex justify-between items-start mb-2">
                             <div className="flex-1">
                               <div className="font-medium mb-1">
-                                {score.members?.name}
+                                {score.members?.name || "Todos"}
                               </div>
                               <p className="text-sm text-muted-foreground">
                                 {score.description}
