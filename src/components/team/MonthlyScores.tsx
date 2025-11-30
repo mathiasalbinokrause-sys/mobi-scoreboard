@@ -39,6 +39,8 @@ const MonthlyScores = ({ teamId }: MonthlyScoresProps) => {
   const { scores, deleteScore, clearMonth, clearYear } = useTeamData(teamId);
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [openDialogs, setOpenDialogs] = useState<Record<string, boolean>>({});
+  const [openAlerts, setOpenAlerts] = useState<Record<string, boolean>>({});
 
   const monthlyData = months.map((month) => {
     const monthScores = scores.filter((s) => s.month === month);
@@ -180,11 +182,20 @@ const MonthlyScores = ({ teamId }: MonthlyScoresProps) => {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {monthlyData.map((data) => (
-              <Dialog key={data.month}>
+              <Dialog 
+                key={`dialog-${data.month}`}
+                open={openDialogs[data.month] || false}
+                onOpenChange={(open) => {
+                  setOpenDialogs(prev => ({ ...prev, [data.month]: open }));
+                  if (open) {
+                    setSelectedMonth(data.month);
+                    setSearchTerm("");
+                  }
+                }}
+              >
                 <DialogTrigger asChild>
                   <div
                     className="p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors border border-border/50 cursor-pointer group"
-                    onClick={() => setSelectedMonth(data.month)}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <span className="font-semibold capitalize">{data.month}</span>
@@ -242,7 +253,13 @@ const MonthlyScores = ({ teamId }: MonthlyScoresProps) => {
                               <span className="font-bold text-primary text-lg">
                                 {Number(score.points).toFixed(1)}
                               </span>
-                              <AlertDialog>
+                              <AlertDialog
+                                key={`alert-${score.id}`}
+                                open={openAlerts[score.id] || false}
+                                onOpenChange={(open) => {
+                                  setOpenAlerts(prev => ({ ...prev, [score.id]: open }));
+                                }}
+                              >
                                 <AlertDialogTrigger asChild>
                                   <Button
                                     variant="ghost"
@@ -262,7 +279,10 @@ const MonthlyScores = ({ teamId }: MonthlyScoresProps) => {
                                   <AlertDialogFooter>
                                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
                                     <AlertDialogAction
-                                      onClick={() => deleteScore.mutate(score.id)}
+                                      onClick={() => {
+                                        deleteScore.mutate(score.id);
+                                        setOpenAlerts(prev => ({ ...prev, [score.id]: false }));
+                                      }}
                                       className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                     >
                                       Remover

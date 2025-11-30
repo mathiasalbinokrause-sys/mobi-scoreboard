@@ -24,6 +24,7 @@ interface TeamMembersProps {
 const TeamMembers = ({ teamId }: TeamMembersProps) => {
   const { members, addMember, deleteMember } = useTeamData(teamId);
   const [newMemberName, setNewMemberName] = useState("");
+  const [openAlerts, setOpenAlerts] = useState<Record<string, boolean>>({});
 
   const handleAddMember = (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,7 +87,13 @@ const TeamMembers = ({ teamId }: TeamMembersProps) => {
                   className="flex items-center justify-between p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors border border-border/50"
                 >
                   <span className="font-medium">{member.name}</span>
-                  <AlertDialog>
+                  <AlertDialog
+                    key={`alert-${member.id}`}
+                    open={openAlerts[member.id] || false}
+                    onOpenChange={(open) => {
+                      setOpenAlerts(prev => ({ ...prev, [member.id]: open }));
+                    }}
+                  >
                     <AlertDialogTrigger asChild>
                       <Button
                         variant="ghost"
@@ -107,7 +114,10 @@ const TeamMembers = ({ teamId }: TeamMembersProps) => {
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancelar</AlertDialogCancel>
                         <AlertDialogAction
-                          onClick={() => deleteMember.mutate(member.id)}
+                          onClick={() => {
+                            deleteMember.mutate(member.id);
+                            setOpenAlerts(prev => ({ ...prev, [member.id]: false }));
+                          }}
                           className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
                           Remover
