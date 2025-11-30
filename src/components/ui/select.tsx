@@ -30,6 +30,13 @@ interface SelectProps {
 const Select = ({ value = "", onValueChange, disabled, children }: SelectProps) => {
   const [open, setOpen] = React.useState(false);
   
+  // Auto-close dropdown when value changes
+  React.useEffect(() => {
+    if (value) {
+      setOpen(false);
+    }
+  }, [value]);
+  
   const contextValue: SelectContextValue = {
     value,
     onValueChange: onValueChange || (() => {}),
@@ -108,10 +115,14 @@ const SelectContent = React.forwardRef<
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
+    // Small delay to avoid conflicts with form submission
+    const timeoutId = setTimeout(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscape);
+    }, 0);
 
     return () => {
+      clearTimeout(timeoutId);
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
     };
