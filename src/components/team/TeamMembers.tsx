@@ -4,18 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTeamData } from "@/hooks/useTeamData";
-import { Users, Trash2, UserPlus } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { Users, UserPlus } from "lucide-react";
+import { DeleteMemberConfirm } from "./DeleteMemberConfirm";
 
 interface TeamMembersProps {
   teamId: string;
@@ -24,7 +14,6 @@ interface TeamMembersProps {
 const TeamMembers = ({ teamId }: TeamMembersProps) => {
   const { members, addMember, deleteMember } = useTeamData(teamId);
   const [newMemberName, setNewMemberName] = useState("");
-  const [openAlerts, setOpenAlerts] = useState<Record<string, boolean>>({});
 
   const handleAddMember = (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,44 +76,10 @@ const TeamMembers = ({ teamId }: TeamMembersProps) => {
                   className="flex items-center justify-between p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors border border-border/50"
                 >
                   <span className="font-medium">{member.name}</span>
-                  <AlertDialog
-                    key={`alert-${member.id}`}
-                    open={openAlerts[member.id] || false}
-                    onOpenChange={(open) => {
-                      setOpenAlerts(prev => ({ ...prev, [member.id]: open }));
-                    }}
-                  >
-                    <AlertDialogTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Remover Membro</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Tem certeza que deseja remover <strong>{member.name}</strong>?
-                          Todas as pontuações deste membro também serão removidas.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={() => {
-                            deleteMember.mutate(member.id);
-                            setOpenAlerts(prev => ({ ...prev, [member.id]: false }));
-                          }}
-                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                        >
-                          Remover
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                  <DeleteMemberConfirm
+                    memberName={member.name}
+                    onConfirm={() => deleteMember.mutate(member.id)}
+                  />
                 </div>
               ))}
             </div>
