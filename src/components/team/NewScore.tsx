@@ -87,28 +87,31 @@ const NewScore = ({ teamId }: NewScoreProps) => {
         return;
       }
 
-      addScore.mutate({
-        member_id: formData.member_id === "todos" ? null : formData.member_id,
-        description: formData.description.trim(),
-        points,
-        month: formData.month,
-      }, {
-        onSuccess: () => {
-          // Reset form with longer delay to ensure all cleanup is complete
-          setTimeout(() => {
-            setFormData({
-              member_id: "",
-              description: "",
-              points: "",
-              month: "",
-            });
-          }, 300);
-        },
-        onError: (error) => {
-          console.error("Erro ao adicionar pontuação:", error);
-          toast.error("Erro ao adicionar pontuação. Tente novamente.");
-        }
+addScore.mutate(
+  {
+    member_id: formData.member_id === "todos" ? null : formData.member_id,
+    description: formData.description.trim(),
+    points,
+    month: formData.month,
+  },
+  {
+    onSuccess: () => {
+      // Reseta o formulário imediatamente (sem timeout)
+      setFormData({
+        member_id: "",
+        description: "",
+        points: "",
+        month: "",
       });
+
+      toast.success("Pontuação adicionada com sucesso!");
+    },
+    onError: (error) => {
+      console.error("Erro ao adicionar pontuação:", error);
+      toast.error("Erro ao adicionar pontuação. Tente novamente.");
+    },
+  }
+);
     } catch (error) {
       console.error("Erro no handleSubmit:", error);
       toast.error("Erro inesperado. Tente novamente.");
