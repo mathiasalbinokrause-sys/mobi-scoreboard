@@ -1,5 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertTriangle, XCircle } from "lucide-react";
@@ -11,44 +21,41 @@ interface ClearMonthDialogProps {
 }
 
 export const ClearMonthDialog = ({ months, onClearMonth }: ClearMonthDialogProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [confirming, setConfirming] = useState(false);
 
   const handleConfirm = () => {
     if (selectedMonth) {
       onClearMonth(selectedMonth);
-      setIsOpen(false);
+      setOpen(false);
       setSelectedMonth("");
       setConfirming(false);
     }
   };
 
-  if (!isOpen) {
-    return (
-      <Button
-        variant="outline"
-        className="border-destructive/50 text-destructive hover:bg-destructive/10"
-        onClick={() => setIsOpen(true)}
-      >
-        <XCircle className="h-4 w-4 mr-2" />
-        Zerar Mês
-      </Button>
-    );
-  }
-
   return (
-    <Card className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-      <div className="bg-background border rounded-lg p-6 max-w-lg w-full space-y-4">
-        <div className="flex items-center gap-2">
-          <AlertTriangle className="h-5 w-5 text-destructive" />
-          <h2 className="text-lg font-semibold">Zerar Mês Específico</h2>
-        </div>
-        
-        <p className="text-sm text-muted-foreground">
-          Esta ação irá remover TODAS as pontuações de um mês específico.
-          Esta ação não pode ser desfeita!
-        </p>
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button
+          variant="outline"
+          className="border-destructive/50 text-destructive hover:bg-destructive/10"
+        >
+          <XCircle className="h-4 w-4 mr-2" />
+          Zerar Mês
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-destructive" />
+            Zerar Mês Específico
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            Esta ação irá remover TODAS as pontuações de um mês específico.
+            Esta ação não pode ser desfeita!
+          </AlertDialogDescription>
+        </AlertDialogHeader>
 
         {!confirming ? (
           <>
@@ -70,24 +77,18 @@ export const ClearMonthDialog = ({ months, onClearMonth }: ClearMonthDialogProps
               </Select>
             </div>
 
-            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setIsOpen(false);
-                  setSelectedMonth("");
-                }}
-              >
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => setSelectedMonth("")}>
                 Cancelar
-              </Button>
-              <Button
-                variant="destructive"
+              </AlertDialogCancel>
+              <AlertDialogAction
                 disabled={!selectedMonth}
                 onClick={() => setConfirming(true)}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
                 Continuar
-              </Button>
-            </div>
+              </AlertDialogAction>
+            </AlertDialogFooter>
           </>
         ) : (
           <>
@@ -95,17 +96,17 @@ export const ClearMonthDialog = ({ months, onClearMonth }: ClearMonthDialogProps
               Confirme que deseja zerar todas as pontuações de{" "}
               <strong>{selectedMonth}</strong>
             </p>
-            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
+            <AlertDialogFooter>
               <Button variant="outline" onClick={() => setConfirming(false)}>
                 Voltar
               </Button>
-              <Button variant="destructive" onClick={handleConfirm}>
+              <AlertDialogAction onClick={handleConfirm} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
                 Confirmar e Zerar
-              </Button>
-            </div>
+              </AlertDialogAction>
+            </AlertDialogFooter>
           </>
         )}
-      </div>
-    </Card>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
