@@ -96,14 +96,12 @@ addScore.mutate(
   },
   {
     onSuccess: () => {
-      // Reseta o formulário imediatamente (sem timeout)
       setFormData({
         member_id: "",
         description: "",
         points: "",
         month: "",
       });
-
       toast.success("Pontuação adicionada com sucesso!");
     },
     onError: (error) => {
