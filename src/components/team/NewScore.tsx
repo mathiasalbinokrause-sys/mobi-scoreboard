@@ -20,6 +20,7 @@ const months = [
 
 const NewScore = ({ teamId }: NewScoreProps) => {
   const { members, addScore } = useTeamData(teamId);
+  const [mesSelecionado, setMesSelecionado] = useState("");
   const [formData, setFormData] = useState({
     member_id: "",
     description: "",
