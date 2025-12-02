@@ -209,21 +209,31 @@ addScore.mutate(
             <div className="space-y-2">
               <Label htmlFor="month">Mês *</Label>
               <Select
-                value={formData.month}
-                onValueChange={handleMonthChange}
-              >
-                <SelectTrigger id="month" className="w-full">
-                  <SelectValue placeholder="Selecione o mês" />
-                </SelectTrigger>
-                <SelectContent>
-                  {months.map((month) => (
-                    <SelectItem key={month} value={month}>
-                      {month.charAt(0).toUpperCase() + month.slice(1)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+  value={mesSelecionado}
+  onValueChange={(value) => {
+    if (!value) return;
+    setMesSelecionado(value);
+  }}
+>
+  <SelectTrigger className="mt-2">
+    <SelectValue placeholder="Selecione o mês" />
+  </SelectTrigger>
+
+  <SelectContent>
+    <SelectItem value="janeiro">Janeiro</SelectItem>
+    <SelectItem value="fevereiro">Fevereiro</SelectItem>
+    <SelectItem value="marco">Março</SelectItem>
+    <SelectItem value="abril">Abril</SelectItem>
+    <SelectItem value="maio">Maio</SelectItem>
+    <SelectItem value="junho">Junho</SelectItem>
+    <SelectItem value="julho">Julho</SelectItem>
+    <SelectItem value="agosto">Agosto</SelectItem>
+    <SelectItem value="setembro">Setembro</SelectItem>
+    <SelectItem value="outubro">Outubro</SelectItem>
+    <SelectItem value="novembro">Novembro</SelectItem>
+    <SelectItem value="dezembro">Dezembro</SelectItem>
+  </SelectContent>
+</Select>
 
             <Button
               type="submit"
